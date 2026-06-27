@@ -1,0 +1,26 @@
+{
+  "name": "claude-notify",
+  "version": "1.0.0",
+  "description": "macOS notifications + music for Claude Code task completion",
+  "main": "src/index.js",
+  "bin": {
+    "claude-notify": "./bin/claude-notify"
+  },
+  "scripts": {
+    "test": "jest --testEnvironment node"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^15.0.0",
+    "inquirer": "^14.0.2",
+    "node-notifier": "^10.0.1"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
