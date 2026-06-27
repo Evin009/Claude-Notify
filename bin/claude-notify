@@ -13,8 +13,12 @@ program
   .description('Fire notification (called by Claude Code Stop hook)')
   .option('--duration <seconds>', 'Task duration in seconds', '0')
   .action(async (opts) => {
-    const { fire } = require('../src/notify');
-    await fire(parseInt(opts.duration, 10));
+    try {
+      const { fire } = require('../src/notify');
+      await fire(parseInt(opts.duration, 10));
+    } catch {
+      // never exit non-zero — a failing hook breaks Claude Code
+    }
   });
 
 program
