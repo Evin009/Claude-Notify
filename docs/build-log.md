@@ -20,3 +20,24 @@
 
 **Bugs caught:**
 - Missing safety net on `fire` command found in code review — async errors could escape and cause non-zero exit, breaking Claude Code's hook system. Fixed before merge.
+
+---
+
+## Phase 2 — Config
+**Date:** 2026-06-28
+
+**Aim:** Build config system. Every other module reads from this — get it right once so nothing else handles missing or broken config.
+
+**What got built:**
+- Tool now reads and writes a settings file stored in the user's home folder
+- If settings file missing or broken, tool silently falls back to safe defaults — no crash, no noise
+- Settings always merge with defaults so new fields added in future never break old config files
+- 4 tests covering: no file, partial file, write, corrupt file
+
+**Decisions made:**
+- Corrupt config treated same as missing config — both return defaults silently. Design choice: tool should always work, even if user hand-edited the file badly
+- Config is always written as full object, never patched — simpler, no partial-write bugs
+- Read happens fresh on every call, no caching — config is tiny, disk read is instant, avoids stale-state bugs
+
+**Bugs caught:**
+- Code review found `writeConfig` had no error handling — disk full or permission error would crash the `enable`/`disable` commands with an ugly unhandled exception. Fixed: now prints readable error to terminal instead of crashing.
