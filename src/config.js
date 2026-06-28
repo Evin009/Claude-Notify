@@ -23,7 +23,11 @@ function readConfig() {
 }
 
 function writeConfig(config) {
-  fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
+  try {
+    fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
+  } catch (err) {
+    console.error(`claude-notify: failed to write config — ${err.message}`);
+  }
 }
 
 module.exports = { readConfig, writeConfig, DEFAULT_CONFIG, CONFIG_PATH };
