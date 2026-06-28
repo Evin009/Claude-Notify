@@ -512,7 +512,7 @@ git commit -m "feat: add core notification via node-notifier"
   - Resolves when audio finishes or duration expires
   - Never rejects — all errors caught silently
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Create `tests/player.test.js`:
 
@@ -578,7 +578,7 @@ test('resolves silently when track file missing', async () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify fail**
+- [x] **Step 2: Run test — verify fail**
 
 ```bash
 npx jest tests/player.test.js
@@ -586,7 +586,7 @@ npx jest tests/player.test.js
 
 Expected: `Cannot find module '../src/library'` or assertion failures
 
-- [ ] **Step 3: Create stub library.js**
+- [x] **Step 3: Create stub library.js**
 
 Create `src/library.js` (stub — full implementation in Task 5):
 
@@ -602,7 +602,7 @@ function resolveTrackPath(trackId) {
 module.exports = { resolveTrackPath, TRACKS };
 ```
 
-- [ ] **Step 4: Implement player.js**
+- [x] **Step 4: Implement player.js**
 
 Replace `src/player.js`:
 
@@ -641,7 +641,7 @@ async function play(trackId, durationSeconds, volume) {
 module.exports = { play };
 ```
 
-- [ ] **Step 5: Run test — verify pass**
+- [x] **Step 5: Run test — verify pass**
 
 ```bash
 npx jest tests/player.test.js
@@ -649,7 +649,7 @@ npx jest tests/player.test.js
 
 Expected: `4 passed`
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/player.js src/library.js tests/player.test.js
