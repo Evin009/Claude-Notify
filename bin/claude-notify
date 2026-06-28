@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+'use strict';
+
+const { program } = require('commander');
+
+program
+  .name('claude-notify')
+  .description('macOS notifications + music when Claude Code finishes')
+  .version('1.0.0');
+
+program
+  .command('fire')
+  .description('Fire notification (called by Claude Code Stop hook)')
+  .option('--duration <seconds>', 'Task duration in seconds', '0')
+  .action(async (opts) => {
+    try {
+      const { fire } = require('../src/notify');
+      await fire(parseInt(opts.duration, 10));
+    } catch {
+      // never exit non-zero — a failing hook breaks Claude Code
+    }
+  });
+
+program
+  .command('setup')
+  .description('Interactive setup wizard')
+  .action(async () => {
+    const { runWizard } = require('../src/wizard');
+    await runWizard();
+  });
+
+program
+  .command('config')
+  .description('Print current config')
+  .action(() => {
+    const { readConfig } = require('../src/config');
+    console.log(JSON.stringify(readConfig(), null, 2));
+  });
+
+program
+  .command('enable')
+  .description('Enable notifications')
+  .action(() => {
+    const { writeConfig, readConfig } = require('../src/config');
+    writeConfig({ ...readConfig(), enabled: true });
+    console.log('claude-notify enabled');
+  });
+
+program
+  .command('disable')
+  .description('Disable notifications without removing hook')
+  .action(() => {
+    const { writeConfig, readConfig } = require('../src/config');
+    writeConfig({ ...readConfig(), enabled: false });
+    console.log('claude-notify disabled');
+  });
+
+program.parse(process.argv);
