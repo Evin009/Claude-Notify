@@ -372,7 +372,7 @@ git commit -m "feat: add config read/write with defaults"
 - Consumes: `readConfig()` from `src/config.js`, `formatDuration(s)` from `src/format.js`
 - Produces: `fire(durationSeconds: number): Promise<void>` — sends notification, triggers player if configured
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Create `tests/notify.test.js`:
 
@@ -427,7 +427,7 @@ test('skips play when musicDuration is 0', async () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify fail**
+- [x] **Step 2: Run test — verify fail**
 
 ```bash
 npx jest tests/notify.test.js
@@ -435,7 +435,7 @@ npx jest tests/notify.test.js
 
 Expected: `Cannot find module '../src/notify'`
 
-- [ ] **Step 3: Create stub player.js so mock works**
+- [x] **Step 3: Create stub player.js so mock works**
 
 Create `src/player.js` (stub — full implementation in Task 4):
 
@@ -447,7 +447,7 @@ async function play(track, durationSeconds, volume) {}
 module.exports = { play };
 ```
 
-- [ ] **Step 4: Implement notify.js**
+- [x] **Step 4: Implement notify.js**
 
 Create `src/notify.js`:
 
@@ -480,7 +480,7 @@ async function fire(durationSeconds) {
 module.exports = { fire };
 ```
 
-- [ ] **Step 5: Run test — verify pass**
+- [x] **Step 5: Run test — verify pass**
 
 ```bash
 npx jest tests/notify.test.js
@@ -488,7 +488,7 @@ npx jest tests/notify.test.js
 
 Expected: `5 passed`
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/notify.js src/player.js tests/notify.test.js
