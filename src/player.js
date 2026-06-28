@@ -10,14 +10,16 @@ async function play(trackId, durationSeconds, volume) {
 
     const vol = (Math.min(100, Math.max(0, volume)) / 100).toFixed(2);
     const proc = spawn('afplay', [trackPath, '-v', vol]);
+    const safeDuration = Math.max(1, durationSeconds || 0) * 1000;
 
     proc.stderr.on('data', () => {});
+    proc.on('error', () => {});
 
     await new Promise((resolve) => {
       const timer = setTimeout(() => {
         proc.kill();
         resolve();
-      }, durationSeconds * 1000);
+      }, safeDuration);
 
       proc.on('close', () => {
         clearTimeout(timer);
