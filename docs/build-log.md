@@ -62,3 +62,26 @@
 
 **Bugs caught:**
 - Code review raised 4 potential crash scenarios (unguarded calls inside fire). All verified as safe — the entry point catch from Phase 1 already covers them. No changes needed.
+
+---
+
+## Phase 4 — Audio Player
+**Date:** 2026-06-28
+
+**Aim:** Replace audio stub with real playback. Music plays after notification fires, stops after user-set duration.
+
+**What got built:**
+- Audio now plays when Claude finishes a task — spawns the built-in macOS audio player under the hood
+- Volume controlled 0–100, converted to the format the audio player expects
+- Stops automatically after configured duration — timer kills the audio process
+- If audio finishes before the timer, timer cancels cleanly — no zombie processes
+- All errors swallowed silently — bad file, missing audio tool, any crash — notification already fired, audio is bonus
+- 4 unit tests, 18 total passing
+
+**Decisions made:**
+- Audio player has its own internal safety net (separate from the entry point catch) because the async error event from spawning a process is a different failure path that the outer catch can't reach
+- Negative or missing duration treated as 1 second minimum then kill — avoids immediate-kill edge case from hand-edited config
+
+**Bugs caught:**
+- Review found missing error handler on the spawned process — Node.js emits errors from child processes as events, not exceptions, so the outer try/catch can't catch them. Unhandled event would crash the process. Fixed: silent error handler added.
+- Review found negative duration in config would cause timer to fire immediately and kill audio before it starts. Fixed: duration clamped to minimum 1 second.
