@@ -41,3 +41,24 @@
 
 **Bugs caught:**
 - Code review found `writeConfig` had no error handling — disk full or permission error would crash the `enable`/`disable` commands with an ugly unhandled exception. Fixed: now prints readable error to terminal instead of crashing.
+
+---
+
+## Phase 3 — Core Notification
+**Date:** 2026-06-28
+
+**Aim:** Wire the actual popup. First time `fire` does something visible on screen.
+
+**What got built:**
+- Running `claude-notify fire --duration=154` now shows a macOS popup saying "Claude done · 2m 34s"
+- Duration formats cleanly: zero duration shows "Claude done" with no trailing text
+- If music is configured, hands off to audio player (stub for now, real audio in next phase)
+- Tool does nothing when disabled — reads that from config, returns immediately
+- 5 unit tests, 14 total passing
+
+**Decisions made:**
+- Notification module itself has no safety net — the entry point (the command runner) already wraps everything in a catch. One catch in the right place beats try/catch scattered across every function
+- Music only plays if both a track is set AND duration is greater than zero — two conditions, not one, avoids playing music when user sets track but sets duration to 0 to mute it
+
+**Bugs caught:**
+- Code review raised 4 potential crash scenarios (unguarded calls inside fire). All verified as safe — the entry point catch from Phase 1 already covers them. No changes needed.
