@@ -252,7 +252,7 @@ git commit -m "feat: scaffold claude-notify project with format utility"
   - `writeConfig(config: Config): void` — writes full config to disk
   - `Config` shape: `{ enabled: boolean, music: string|null, musicDuration: number, volume: number }`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Create `tests/config.test.js`:
 
@@ -299,7 +299,7 @@ test('readConfig handles corrupt JSON gracefully', () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify fail**
+- [x] **Step 2: Run test — verify fail**
 
 ```bash
 npx jest tests/config.test.js
@@ -307,7 +307,7 @@ npx jest tests/config.test.js
 
 Expected: `Cannot find module '../src/config'`
 
-- [ ] **Step 3: Implement config.js**
+- [x] **Step 3: Implement config.js**
 
 Create `src/config.js`:
 
@@ -343,7 +343,7 @@ function writeConfig(config) {
 module.exports = { readConfig, writeConfig, DEFAULT_CONFIG, CONFIG_PATH };
 ```
 
-- [ ] **Step 4: Run test — verify pass**
+- [x] **Step 4: Run test — verify pass**
 
 ```bash
 npx jest tests/config.test.js
@@ -351,7 +351,7 @@ npx jest tests/config.test.js
 
 Expected: `4 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/config.js tests/config.test.js
