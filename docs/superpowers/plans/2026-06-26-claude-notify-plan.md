@@ -676,7 +676,7 @@ git commit -m "feat: add afplay audio player with duration kill"
 
 > **Note on music files:** Bundled MP3s are not included in this plan. Add royalty-free MP3 clips to `music/` named `lofi-1.mp3`, `lofi-2.mp3`, `ambient-1.mp3`, `ambient-2.mp3`, `chime.mp3`. Sources: freemusicarchive.org or pixabay.com/music (check license). The library resolves paths — missing files fall back to null silently.
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Create `tests/library.test.js`:
 
@@ -716,7 +716,7 @@ test('listTracks returns id, name, vibe for each track', () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify fail**
+- [x] **Step 2: Run test — verify fail**
 
 ```bash
 npx jest tests/library.test.js
@@ -724,7 +724,7 @@ npx jest tests/library.test.js
 
 Expected: assertion failures (stub has empty TRACKS)
 
-- [ ] **Step 3: Implement library.js**
+- [x] **Step 3: Implement library.js**
 
 Replace `src/library.js`:
 
@@ -757,14 +757,14 @@ function listTracks() {
 module.exports = { resolveTrackPath, listTracks, TRACKS };
 ```
 
-- [ ] **Step 4: Create music folder with note**
+- [x] **Step 4: Create music folder with note**
 
 ```bash
 mkdir -p music
 echo "# Add royalty-free MP3s here: lofi-1.mp3, lofi-2.mp3, ambient-1.mp3, ambient-2.mp3, chime.mp3" > music/README.md
 ```
 
-- [ ] **Step 5: Run test — verify pass**
+- [x] **Step 5: Run test — verify pass**
 
 ```bash
 npx jest tests/library.test.js
@@ -772,7 +772,7 @@ npx jest tests/library.test.js
 
 Expected: `5 passed`
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/library.js music/README.md tests/library.test.js
