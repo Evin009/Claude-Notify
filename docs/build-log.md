@@ -85,3 +85,25 @@
 **Bugs caught:**
 - Review found missing error handler on the spawned process — Node.js emits errors from child processes as events, not exceptions, so the outer try/catch can't catch them. Unhandled event would crash the process. Fixed: silent error handler added.
 - Review found negative duration in config would cause timer to fire immediately and kill audio before it starts. Fixed: duration clamped to minimum 1 second.
+
+---
+
+## Phase 5 — Music Library
+**Date:** 2026-06-30
+
+**Aim:** Replace track stub with real metadata. Built-in IDs map to bundled files. Custom paths pass through.
+
+**What got built:**
+- 5 built-in tracks defined: two lo-fi, two ambient, one short chime
+- Track IDs (like `lofi-1`) resolve to actual file paths inside the tool's music folder
+- Custom absolute file paths (user's own music) pass through unchanged
+- Unknown IDs return nothing — player skips silently
+- `listTracks()` exposes track list for the setup wizard to display
+- 5 unit tests, 23 total passing
+
+**Decisions made:**
+- MP3 files not bundled in repo — user adds royalty-free clips to `music/` folder. README in that folder explains what to add and where to find free music
+- Custom path validation intentionally skipped — single-user local tool, user is responsible for their own file paths
+
+**Bugs caught:**
+- Review flagged 3 issues — all refuted. One was a diff transcription error (code was correct). One was design-by-intent (custom paths). One was correct behavior (empty string returns null).
