@@ -11,11 +11,9 @@ function settingsPath() {
 }
 
 function readSettings() {
-  try {
-    return JSON.parse(fs.readFileSync(settingsPath(), 'utf8'));
-  } catch {
-    return {};
-  }
+  const p = settingsPath();
+  if (!fs.existsSync(p)) return {};
+  return JSON.parse(fs.readFileSync(p, 'utf8'));
 }
 
 function writeSettings(settings) {
@@ -26,7 +24,7 @@ function writeSettings(settings) {
 
 function hookInstalled() {
   const settings = readSettings();
-  const stops = settings?.hooks?.Stop || [];
+  const stops = Array.isArray(settings?.hooks?.Stop) ? settings.hooks.Stop : [];
   return stops.some(h => h.command && h.command.includes('claude-notify'));
 }
 
@@ -41,7 +39,7 @@ function patchHook() {
 
 function removeHook() {
   const settings = readSettings();
-  if (!settings?.hooks?.Stop) return;
+  if (!Array.isArray(settings?.hooks?.Stop)) return;
   settings.hooks.Stop = settings.hooks.Stop.filter(
     h => !(h.command && h.command.includes('claude-notify'))
   );
