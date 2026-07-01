@@ -81,10 +81,18 @@ async function runWizard() {
   }
 
   const config = { enabled, music, musicDuration, volume };
-  writeConfig(config);
-  console.log('\n Config saved to ~/.claude-notify.json');
+  const wrote = (() => {
+    try { writeConfig(config); return true; } catch { return false; }
+  })();
+  console.log(wrote
+    ? '\n Config saved to ~/.claude-notify.json'
+    : '\n Failed to save config — check permissions on ~/.claude-notify.json'
+  );
 
-  if (!hookInstalled()) {
+  let alreadyInstalled = false;
+  try { alreadyInstalled = hookInstalled(); } catch { /* corrupt settings.json — skip hook patch */ }
+
+  if (!alreadyInstalled) {
     const { patch } = await inquirer.prompt([{
       type: 'confirm',
       name: 'patch',
@@ -93,8 +101,16 @@ async function runWizard() {
     }]);
 
     if (patch) {
-      patchHook();
-      console.log(' Hook added to ~/.claude/settings.json');
+      try {
+        patchHook();
+        console.log(' Hook added to ~/.claude/settings.json');
+      } catch (err) {
+        console.error(` Could not patch hook: ${err.message}`);
+        console.log('\nAdd this manually to ~/.claude/settings.json:');
+        console.log(JSON.stringify({
+          hooks: { Stop: [{ command: 'claude-notify fire --duration=$CLAUDE_SESSION_DURATION' }] }
+        }, null, 2));
+      }
     } else {
       console.log('\nAdd this manually to ~/.claude/settings.json:');
       console.log(JSON.stringify({
