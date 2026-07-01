@@ -107,3 +107,26 @@
 
 **Bugs caught:**
 - Review flagged 3 issues — all refuted. One was a diff transcription error (code was correct). One was design-by-intent (custom paths). One was correct behavior (empty string returns null).
+
+---
+
+## Phase 6 — Hook Integration
+**Date:** 2026-06-30
+
+**Aim:** Wire the tool into Claude Code automatically. No manual JSON editing by user.
+
+**What got built:**
+- Reads Claude Code's settings file and adds a line that tells it to call our tool when it finishes a task
+- Safe to run twice — checks first, adds only if missing
+- Preserves everything else in the settings file untouched
+- Can also remove the hook without touching anything else
+- 6 unit tests, 29 total passing
+
+**Decisions made:**
+- Corrupt settings.json now throws instead of returning empty object — prevents accidentally overwriting user's entire Claude Code config with a blank slate
+- Stop hook value validated as array before calling filter — malformed but valid JSON won't crash
+- Race condition (two simultaneous calls) intentionally not handled — single-user CLI tool, not worth the complexity
+
+**Bugs caught:**
+- Review found corrupt JSON would cause the tool to silently overwrite user's entire Claude Code config with a blank file — data loss. Fixed: now throws on corrupt JSON instead of swallowing error.
+- Review found `.filter()` called on `Stop` without confirming it's an array — malformed settings could crash. Fixed: Array.isArray guard added.
