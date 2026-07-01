@@ -796,7 +796,7 @@ git commit -m "feat: add built-in music library with track resolution"
   - `removeHook(): void` — removes the claude-notify Stop hook entry
   - `hookInstalled(): boolean` — returns true if hook already present
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Create `tests/hooks.test.js`:
 
@@ -870,7 +870,7 @@ test('hookInstalled returns true after patchHook', () => {
 });
 ```
 
-- [ ] **Step 2: Run test — verify fail**
+- [x] **Step 2: Run test — verify fail**
 
 ```bash
 npx jest tests/hooks.test.js
@@ -878,7 +878,7 @@ npx jest tests/hooks.test.js
 
 Expected: `Cannot find module '../src/hooks'`
 
-- [ ] **Step 3: Implement hooks.js**
+- [x] **Step 3: Implement hooks.js**
 
 Create `src/hooks.js`:
 
@@ -933,7 +933,7 @@ function removeHook() {
 module.exports = { patchHook, removeHook, hookInstalled, HOOK_COMMAND };
 ```
 
-- [ ] **Step 4: Run test — verify pass**
+- [x] **Step 4: Run test — verify pass**
 
 ```bash
 npx jest tests/hooks.test.js
@@ -941,7 +941,7 @@ npx jest tests/hooks.test.js
 
 Expected: `6 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/hooks.js tests/hooks.test.js
