@@ -967,7 +967,7 @@ git commit -m "feat: add Claude Code settings.json hook patching"
 
 > Wizard is integration-heavy (Inquirer prompts + side effects). Manual test only — no unit tests for this task.
 
-- [ ] **Step 1: Implement wizard.js**
+- [x] **Step 1: Implement wizard.js**
 
 Create `src/wizard.js`:
 
@@ -1078,7 +1078,7 @@ async function runWizard() {
 module.exports = { runWizard };
 ```
 
-- [ ] **Step 2: Manual test — run wizard**
+- [x] **Step 2: Manual test — run wizard**
 
 ```bash
 node bin/claude-notify setup
@@ -1086,7 +1086,7 @@ node bin/claude-notify setup
 
 Expected: prompts appear, config written to `~/.claude-notify.json`, hook appears in `~/.claude/settings.json`
 
-- [ ] **Step 3: Manual test — fire command**
+- [x] **Step 3: Manual test — fire command**
 
 ```bash
 node bin/claude-notify fire --duration=154
@@ -1094,7 +1094,7 @@ node bin/claude-notify fire --duration=154
 
 Expected: macOS notification appears saying "Claude done · 2m 34s", music plays if configured
 
-- [ ] **Step 4: Manual test — other commands**
+- [x] **Step 4: Manual test — other commands**
 
 ```bash
 node bin/claude-notify config    # prints current config JSON
@@ -1103,7 +1103,7 @@ node bin/claude-notify config    # shows enabled: false
 node bin/claude-notify enable    # sets enabled: true
 ```
 
-- [ ] **Step 5: Run full test suite to confirm no regressions**
+- [x] **Step 5: Run full test suite to confirm no regressions**
 
 ```bash
 npx jest
@@ -1111,14 +1111,14 @@ npx jest
 
 Expected: all tests pass
 
-- [ ] **Step 6: Install globally**
+- [x] **Step 6: Install globally**
 
 ```bash
 npm install -g .
 claude-notify setup
 ```
 
-- [ ] **Step 7: Final commit**
+- [x] **Step 7: Final commit**
 
 ```bash
 git add src/wizard.js
