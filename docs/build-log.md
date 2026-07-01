@@ -130,3 +130,27 @@
 **Bugs caught:**
 - Review found corrupt JSON would cause the tool to silently overwrite user's entire Claude Code config with a blank file — data loss. Fixed: now throws on corrupt JSON instead of swallowing error.
 - Review found `.filter()` called on `Stop` without confirming it's an array — malformed settings could crash. Fixed: Array.isArray guard added.
+
+---
+
+## Phase 7 — TUI Setup Wizard
+**Date:** 2026-06-30
+
+**Aim:** Build the setup experience. Last piece. Tool fully usable after this.
+
+**What got built:**
+- `claude-notify setup` walks through all options with interactive prompts
+- Music selection shows all built-in tracks by name and plays a 3-second preview of whichever track user picks
+- Custom file path accepted for user's own music
+- Duration and volume configured in same flow
+- Automatically adds itself to Claude Code's settings at the end — no manual JSON editing
+- If hook patching fails (corrupt settings file), shows manual instructions instead of crashing
+- Config save result now accurate — shows failure message if write failed instead of always saying "saved"
+
+**Decisions made:**
+- Used dynamic import for Inquirer (ESM package) — required instead of static require to avoid module system mismatch
+- Wizard has no unit tests — Inquirer prompts can't be unit tested cleanly; manually verified instead
+
+**Bugs caught:**
+- Review found `hookInstalled()` and `patchHook()` could throw if Claude Code's settings file was corrupt — would crash wizard mid-setup. Fixed: wrapped in try/catch, falls back to showing manual instructions.
+- Review found config-save success message printed unconditionally even when write failed. Fixed: checks result and shows accurate message.
